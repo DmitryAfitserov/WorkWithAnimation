@@ -1,20 +1,16 @@
 package com.example.dmitry.workwithanimation;
 
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -25,10 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button zoom;
     private Button move;
     private Button slide;
-    private Button scale;
-    private Button translate;
-     static final int translateint = 1;
-     static final int scaleint = 2;
+    private Button multi;
+     static final int multiint = 1;
      static final int slideint = 3;
      static final int moveint = 4;
      static final int zoomint = 5;
@@ -48,8 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         textView = new TextView(this);
-        textView.setText("text");
-        textView.setTextSize(20);
+        textView.setText("My text");
+        textView.setTextSize(30);
         textView.setTextColor(Color.BLACK);
         frameeLayout.addView(textView, params);
 
@@ -76,16 +70,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         zoom = new Button(this);
         move = new Button(this);
         slide = new Button(this);
-        scale = new Button(this);
-        translate = new Button(this);
+        multi = new Button(this);
 
         fade_in.setOnClickListener(this);
         rotate.setOnClickListener(this);
         zoom.setOnClickListener(this);
         move.setOnClickListener(this);
         slide.setOnClickListener(this);
-        scale.setOnClickListener(this);
-        translate.setOnClickListener(this);
+        multi.setOnClickListener(this);
 
 
         fade_in.setText("fade_in");
@@ -98,24 +90,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         move.setId(moveint);
         slide.setText("slide");
         slide.setId(slideint);
-        scale.setText("scale");
-        scale.setId(scaleint);
-        translate.setText("translate");
-        translate.setId(translateint);
+        multi.setText("multi");
+        multi.setId(multiint);
 
         linearLayout1.addView(fade_in);
         linearLayout1.addView(rotate);
         linearLayout1.addView(zoom);
         linearLayout2.addView(move);
         linearLayout2.addView(slide);
-        linearLayout2.addView(scale);
-        Log.d("EEE", "cccc");
-        FrameLayout.LayoutParams param3 = new FrameLayout.LayoutParams
-                (FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-        //  param2.gravity = Gravity.RIGHT;
-        param3.gravity = Gravity.CENTER_HORIZONTAL + Gravity.BOTTOM;
+        linearLayout2.addView(multi);
 
-        frameeLayout.addView(translate, param3);
 
         setContentView(frameeLayout);
 
@@ -124,35 +108,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        Animation anim = null;
         switch (view.getId()){
-            case translateint:{
-
+            case multiint:{
+                anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.multi);
                 break;
             }
             case zoomint:{
-                Log.d("EEE", "cccc");
-                break;
-            }
-            case scaleint:{
-                Log.d("EEE", "cccc");
+                anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom);
                 break;
             }
             case fade_inint:{
-                Log.d("EEE", "cccc");
+                anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.alpha);
                 break;
             }
             case slideint:{
-                Log.d("EEE", "cccc");
+                anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide);
+
                 break;
             }
             case rotateint:{
-                Log.d("EEE", "cccc");
+                anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
+
                 break;
             }
             case moveint:{
-                Log.d("EEE", "cccc");
+                anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.move);
                 break;
             }
         }
+        textView.startAnimation(anim);
     }
 }
